@@ -130,7 +130,7 @@ Template.board.helpers({
   selectOptions: function() {
     var s = [];
     var game = this.game;
-    console.log(game.respawnUserId);
+    console.log("game.respawnUserId: " + game.respawnUserId + "; Meteor.userId(): " + Meteor.userId());
     if (this.game.respawnUserId === Meteor.userId()) {
       game.selectOptions.forEach(function(opts) {
         opts.position = cssPosition(opts.x, opts.y);
@@ -282,6 +282,8 @@ function animateRotation(element, direction) {
   if (newRotation != oldRotation) {
     Tracker.afterFlush(function() {
       var delta = newRotation - (oldRotation % 360);
+      console.log(element+" animateRotation A: direction="+direction+" old=" + oldRotation + " new=" + newRotation + " delta="+delta);
+
 
       if (delta == 270) {
         if(oldRotation===0) {
@@ -295,6 +297,8 @@ function animateRotation(element, direction) {
       if (delta == -270) {
         delta = 90;
       }
+
+      console.log(element+" animateRotation B: direction="+direction+" old=" + oldRotation + " new=" + newRotation + " delta="+delta);
 
       $("."+element).stop();
       $("."+element).transition({

@@ -24,15 +24,33 @@ GameState = {
 };
 
 (function (scope) {
+  //original values from 2 years ago
   var _NEXT_PHASE_DELAY = 500;
   var _ANNOUNCE_NEXT_PHASE = 1000;
   var _ANNOUNCE_CARD_TIME = 2000;
   var _EXECUTE_CARD_TIME = 2000;
 
-  // game phases:
+  //adjusted values to speed the play up
+  _NEXT_PHASE_DELAY = 600;
+  _ANNOUNCE_NEXT_PHASE = 250;
+  _ANNOUNCE_CARD_TIME = 600;
+  _EXECUTE_CARD_TIME = 1200;
+
+ // game phases:
 
   scope.nextGamePhase = function(gameId) {
     var game = Games.findOne(gameId);
+
+    var long_dir = {
+        r:'right',     l:'left',   u:'up', d:'down',
+        right:'right', left:'left',up:'up',down:'down',
+        0:'up', 1:'right', 2:'down', 3:'left'};
+    var s = "directions ";
+    game.players().forEach(function(p) {
+        var dir = long_dir[p.direction];
+        s += p.name + ":" + dir + "  ";
+    });
+    console.log("------- " + s + "-------");
     Meteor.setTimeout(function() {
       switch (game.gamePhase) {
         case GameState.PHASE.IDLE:
@@ -185,7 +203,7 @@ GameState = {
       if (players[i].isActive()) {
         var cards = players[i].cards;
         var cardIndex = players[i].playedCardsCnt;
-        console.log("reveal", cardIndex, players[i].getChosenCards()[cardIndex]);
+        console.log(players[i].name + ": reveal", cardIndex, players[i].getChosenCards()[cardIndex]);
         cards[cardIndex] = players[i].getChosenCards()[cardIndex];
         Players.update(players[i]._id, {$set: {cards: cards}});
       }

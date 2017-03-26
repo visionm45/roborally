@@ -14,11 +14,10 @@ GameLogic = {
 
   scope.playCard = function(player, card, callback) {
     if (!player.needsRespawn)
-      console.log("trying to play next card for player " + player.name);
 
       if (card != CardLogic.EMPTY) {
         var cardType = CardLogic.cardType(card, player.game().playerCnt());
-        console.log('playing card ' + cardType.name + ' for player ' + player.name);
+        console.log(player.name + ': playing card ' + cardType.name);
 
         player.rotate(cardType.direction);
 
@@ -204,7 +203,7 @@ GameLogic = {
     var board = p.board();
     var makeMove = true;
     if (step.x !== 0 || step.y !== 0) {
-      console.log("trying to move player "+p.name+" to "+ (p.position.x+step.x)+","+(p.position.y+step.y));
+      console.log(p.name+": trying to move player to "+ (p.position.x+step.x)+","+(p.position.y+step.y));
 
       if (board.canMove(p.position.x, p.position.y, step)) {
         var pushedPlayer = isPlayerOnTile(players, p.position.x + step.x, p.position.y + step.y);
@@ -215,7 +214,7 @@ GameLogic = {
           makeMove=tryToMovePlayer(players, pushedPlayer, step);
         }
         if(makeMove) {
-          console.log("moving player "+p.name+" to "+ (p.position.x+step.x)+","+(p.position.y+step.y));
+          console.log(p.name + ": moving player to "+ (p.position.x+step.x)+","+(p.position.y+step.y));
           p.move(step);
           Meteor.wrapAsync(checkRespawnsAndUpdateDb)(p);
           return true;
@@ -290,7 +289,8 @@ GameLogic = {
   }
 
   function checkRespawnsAndUpdateDb(player, callback) {
-    console.log(player.name+" Player.position "+player.position.x+","+player.position.y+" "+player.isOnBoard()+"|"+player.isOnVoid());
+    const dir_text = {0:'up', 1:'right', 2:'down', 3:'left'};
+    console.log(player.name+": pos:"+player.position.x+","+player.position.y+" dir:"+dir_text[player.direction]+" onBoard:"+player.isOnBoard()+" onVoid:"+player.isOnVoid());
     if (!player.needsRespawn && (!player.isOnBoard() || player.isOnVoid() || player.damage > 9 )) {
       if (player.hasOptionCard('superior_archive'))
         player.damage = 0;
@@ -310,7 +310,6 @@ GameLogic = {
       player.chat('died! (lives: '+ player.lives +', damage: '+ player.damage +')');
       Meteor.wrapAsync(removePlayerWithDelay)(player);
     } else {
-      console.log("updating position", player.name);
       Players.update(player._id, player);
     }
     if (callback) {
