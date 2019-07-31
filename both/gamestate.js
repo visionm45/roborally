@@ -79,10 +79,10 @@ GameState = {
         // player was powered down last turn
         // -> can choose to stay powered down this turn
         player.optionalInstantPowerDown = true;
-      } else if (player.powerState == GameLogic.DOWN) {
+      } else if (player.powerState === GameLogic.DOWN) {
         // player announced power down last turn
         player.powerState = GameLogic.OFF;
-        if (!players.optionalInstantPowerDown) {
+        if (!player.optionalInstantPowerDown) {
           player.submitted = true;
           player.damage = 0;
           dealCards = false;
