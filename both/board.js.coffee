@@ -6,8 +6,8 @@ class @Board
     @tiles = create2DArray(height)
     @startpoints=[]
     @checkpoints=[]
-    @min_player = min_player
-    @max_player = max_player
+    @min_player = 2
+    @max_player = 10
     @height = height
     @width = width
 
