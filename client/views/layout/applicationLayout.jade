@@ -25,19 +25,22 @@ template(name="applicationLayout")
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href="{{pathFor 'home.page'}}") RoboRally
-          .fb-like(data-href="https://www.facebook.com/roborallyonline", data-layout="button_count", data-action="like", data-show-faces="true", data-share="true")
+          a.navbar-brand(href='/') RoboRally
+          //.fb-like(data-href="https://www.facebook.com/roborallyonline", data-layout="button_count", data-action="like", data-show-faces="true", data-share="true")
         // Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
             li.hidden
               a(href='/')
-            li.page-scroll
-              a(href="{{pathFor 'gamelist.page'}}") Games
-            li.page-scroll
-              a(href="{{pathFor 'ranking.page'}}") Ranking
+            if loggingIn
+              li.page-scroll
+                a(href="{{pathFor 'gamelist.page'}}") Games
+            if loggingIn
+              li.page-scroll
+                a(href="{{pathFor 'ranking.page'}}") Ranking
             li.page-scroll
               +loginButtons
+  if loggingIn
     header
       .container
         .row
@@ -47,21 +50,39 @@ template(name="applicationLayout")
             +yield("rightPanel")
             +yield("rightPanel2")
             +yield("rightPanel3")
-    // Footer
-    #fb-root
-    footer.text-center
-      .footer-below
-        .container
-          .row
-            .col-lg-12
-              +usersPill
-              h6.pull-right.small
-                i.fa.fa-youtube-play
-                a(href="https://youtu.be/0l8Y-L5IZLE", target="_blank")
-                  | tutorial video
-                i.fa.fa-book(style="padding-left: 10px")
-                a(href="/roborally-manual.pdf", target="_blank")
-                  | game rules PDF
-                a(href='https://mixpanel.com/f/partner')
-                  img(src='https://cdn.mxpnl.com/site_media/images/partner/badge_blue.png' alt='Mobile Analytics')
+   else
+    header
+      .container
+        .row
+          .col-lg-12.text-center
+            h2 About
+            hr.star-light
+        .row
+          .col-lg-4.col-lg-offset-2
+            p
+              | This is an unofficial fansite!
+          .col-lg-4
+            p
+              | Based on Marcel Panse work on www.roborally.com.
+              br
+              | Get the source on
+              a(href='https://github.com/blinkingnoise/roborally').btn.btn-primary.btn-lg GitHub
+
+  // Footer
+  #fb-root
+  footer.text-center
+    .footer-below
+      .container
+        .row
+          .col-lg-12
+            +usersPill
+            h6.pull-right.small
+              i.fa.fa-youtube-play
+              a(href="https://youtu.be/0l8Y-L5IZLE", target="_blank")
+                | tutorial video
+              i.fa.fa-book(style="padding-left: 10px")
+              a(href="/roborally-manual.pdf", target="_blank")
+                | game rules PDF
+              //a(href='https://mixpanel.com/f/partner')
+              //  img(src='https://cdn.mxpnl.com/site_media/images/partner/badge_blue.png' alt='Mobile Analytics')
   +tooltips

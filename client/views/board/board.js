@@ -358,13 +358,13 @@ Template.board.events({
   }
 });
 
-Template.share.helpers({
-  shareData: function() {
-    return {
-      title: 'RoboRally Online',
-      author: 'roborally.com',
-      description: 'desc',
-      url: 'http://www.roborally.com'
-    };
-  }
-});
+//Template.share.helpers({
+//  shareData: function() {
+//    return {
+//      title: 'RoboRally Online',
+//      author: 'roborally.com',
+//      description: 'desc',
+//      url: 'http://www.roborally.com'
+//    };
+//  }
+//});
