@@ -160,8 +160,8 @@ var player = {
   drawOptionCard: function() {
     var gameId = this.game()._id;
     var optionCards = Deck.findOne({gameId: gameId}).optionCards;
-    //Ensure that there are option cards to choose from and then update player deck.
-    if (optionCards) {
+    //Ensure that there are option cards to choose from and then update game deck.
+    if (optionCards.length) {
       var optionId = optionCards.pop();
       this.optionCards[CardLogic.getOptionName(optionId)] = true;
       Deck.update({gameId: gameId}, {$set: {optionCards: optionCards}});
