@@ -270,42 +270,8 @@ function animatePosition(element, x, y) {
 }
 
 function animateRotation(element, direction) {
-  var oldRotation = $("."+element).css('rotate');
-  if (oldRotation === undefined) {
-    oldRotation = 0;
-  } else if (oldRotation !== 0) {
-    oldRotation = parseInt(oldRotation.match(/\d+/g)[0]);
-  }
-
   var newRotation = direction * 90;
-
-  if (newRotation != oldRotation) {
-    Tracker.afterFlush(function() {
-      var delta = newRotation - (oldRotation % 360);
-      console.log(element+" animateRotation A: direction="+direction+" old=" + oldRotation + " new=" + newRotation + " delta="+delta);
-
-
-      if (delta == 270) {
-        if(oldRotation===0) {
-          $("."+element).transition({
-            rotate: '+=359deg'
-          }, 0, 'linear');
-          delta = -89;
-        } else
-          delta = -90;
-      }
-      if (delta == -270) {
-        delta = 90;
-      }
-
-      console.log(element+" animateRotation B: direction="+direction+" old=" + oldRotation + " new=" + newRotation + " delta="+delta);
-
-      $("."+element).stop();
-      $("."+element).transition({
-        rotate: '+='+delta+'deg'
-      }, 300, 'linear');
-    });
-  }
+  $("."+element).css({'transform' : 'rotate(' + newRotation + 'deg)'});
   return '';
 }
 
