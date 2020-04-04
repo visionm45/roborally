@@ -29,7 +29,7 @@ Template.chat.events({
   },
   'click .cancel': function() {
     var game = Games.findOne(this.gameId);
-    if (game.gamePhase != GameState.PHASE.ENDED) {
+    if (game.gamePhase !== GameState.PHASE.ENDED) {
       if (confirm("If you leave, you will forfeit the game, are you sure you want to give up?")) {
         Meteor.call('leaveGame', game._id, function(error) {
           if (error)

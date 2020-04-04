@@ -1,6 +1,6 @@
 Template.gamePageActions.helpers({
   ownGame: function() {
-    return this.userId == Meteor.userId();
+    return this.userId === Meteor.userId();
   },
   inGame: function() {
     return Players.findOne({gameId: this._id, userId: Meteor.userId()});

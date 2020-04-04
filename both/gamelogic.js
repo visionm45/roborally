@@ -12,38 +12,41 @@ GameLogic = {
 (function (scope) {
   _CARD_PLAY_DELAY = 1000;
 
-  scope.playCard = function(player, card, callback) {
-    if (!player.needsRespawn)
+  scope.playCard = function (player, card, callback) {
+    if (!player.needsRespawn) {
       console.log("trying to play next card for player " + player.name);
+    }
 
-      if (card != CardLogic.EMPTY) {
-        var cardType = CardLogic.cardType(card, player.game().playerCnt());
-        console.log('playing card ' + cardType.name + ' for player ' + player.name);
+    if (card !== CardLogic.EMPTY) {
+      var cardType = CardLogic.cardType(card, player.game().playerCnt());
+      console.log('playing card ' + cardType.name + ' for player ' + player.name);
 
-        player.rotate(cardType.direction);
+      player.rotate(cardType.direction);
 
-        if (cardType.position === 0)
-          Meteor.wrapAsync(checkRespawnsAndUpdateDb)(player);
-        else {
-          step = Math.min(cardType.position, 1);
-          for (j=0;j < Math.abs(cardType.position);j++) {
-            timeout = j+1 < Math.abs(cardType.position) ? 0 : _CARD_PLAY_DELAY;
-            // don't delay if there is another step to execute
-            players = Players.find({gameId: player.gameId}).fetch();
-            executeStep(players, player, step);
-            if (player.needsRespawn)
-              break; // player respawned, don't continue playing out this card.
-          }
+      if (cardType.position === 0) {
+        Meteor.wrapAsync(checkRespawnsAndUpdateDb)(player);
+      } else {
+        step = Math.min(cardType.position, 1);
+        for (j = 0; j < Math.abs(cardType.position); j++) {
+          timeout = j + 1 < Math.abs(cardType.position) ? 0 : _CARD_PLAY_DELAY;
+          // don't delay if there is another step to execute
+          players = Players.find({gameId: player.gameId}).fetch();
+          executeStep(players, player, step);
+          if (player.needsRespawn) {
+            break;
+          } // player respawned, don't continue playing out this card.
         }
-      } else
-        console.log("card is not playable " + card + " player " + player.name);
+      }
+    } else {
+      console.log("card is not playable " + card + " player " + player.name);
+    }
 
     callback();
   };
 
-  scope.executeRollers = function(players, callback) {
+  scope.executeRollers = function (players, callback) {
     var roller_moves = [];
-    players.forEach(function(player) {
+    players.forEach(function (player) {
       //check if is on roller
       var tile = player.tile();
       var moving = (tile.type === Tile.ROLLER);
@@ -56,12 +59,12 @@ GameLogic = {
   };
 
   // move players 2nd step in roller direction; 1st step is done by executeRollers,
-  scope.executeExpressRollers = function(players, callback) {
+  scope.executeExpressRollers = function (players, callback) {
     var roller_moves = [];
-    players.forEach(function(player) {
+    players.forEach(function (player) {
       //check if is on roller
       var tile = player.tile();
-      var moving  = (tile.type === Tile.ROLLER && tile.speed === 2);
+      var moving = (tile.type === Tile.ROLLER && tile.speed === 2);
       if (!player.needsRespawn) {
         roller_moves.push(rollerMove(player, tile, moving));
       }
@@ -70,8 +73,8 @@ GameLogic = {
     callback();
   };
 
-  scope.executeGears = function(players, callback) {
-    players.forEach(function(player) {
+  scope.executeGears = function (players, callback) {
+    players.forEach(function (player) {
       if (player.tile().type === Tile.GEAR) {
         player.rotate(player.tile().rotate);
         Players.update(player._id, player);
@@ -80,23 +83,23 @@ GameLogic = {
     callback();
   };
 
-  scope.executePushers = function(players, callback) {
-    players.forEach(function(player) {
+  scope.executePushers = function (players, callback) {
+    players.forEach(function (player) {
       var tile = player.tile();
-      if (tile.type === Tile.PUSHER &&  player.game().playPhaseCount % 2 === tile.pusher_type ) {
+      if (tile.type === Tile.PUSHER && player.game().playPhaseCount % 2 === tile.pusher_type) {
         tryToMovePlayer(players, player, tile.move);
       }
     });
     callback();
   };
 
-  scope.executeLasers = function(players, callback) {
+  scope.executeLasers = function (players, callback) {
     var victims = [];
-    players.forEach(function(player) {
+    players.forEach(function (player) {
       var tile = player.tile();
       if (tile.damage > 0) {
         player.addDamage(tile.damage);
-        player.chat('was hit by a laser, total damage: '+ player.damage);
+        player.chat('was hit by a laser, total damage: ' + player.damage);
         checkRespawnsAndUpdateDb(player);
       }
       if (!player.isPoweredDown() && !player.needsRespawn) {
@@ -106,39 +109,41 @@ GameLogic = {
           victims = scope.shootRobotLaser(players, player, victims);
           player.rotate(2);
         }
-        if (player.hasOptionCard('mini_howitzer') || 
-            player.hasOptionCard('fire_control')  ||
+        if (player.hasOptionCard('mini_howitzer') ||
+            player.hasOptionCard('fire_control') ||
             player.hasOptionCard('radio_control') ||
             (player.hasOptionCard('scrambler') && player.game().playPhaseCount < 5) ||
-            player.hasOptionCard('tractor_beam')  ||
-            player.hasOptionCard('pressor_beam') ) {
+            player.hasOptionCard('tractor_beam') ||
+            player.hasOptionCard('pressor_beam')) {
           //todo: there is no game state laser options yet..?
           //player.game().setPlayPhase(GameState.PLAY_PHASE.LASER_OPTIONS);
         }
       }
     });
-    victims.forEach(function(victim) {
+    victims.forEach(function (victim) {
       victim.addDamage(1);
       checkRespawnsAndUpdateDb(victim);
     });
     callback();
   };
 
-  scope.executeRepairs = function(players, callback) {
-    players.forEach(function(player) {
+  scope.executeRepairs = function (players, callback) {
+    players.forEach(function (player) {
       if (player.tile().repair) {
-        if (player.damage > 0)
+        if (player.damage > 0) {
           player.damage--;
-        if (player.tile().option)
+        }
+        if (player.tile().option) {
           player.drawOptionCard();
+        }
         Players.update(player._id, player);
       }
     });
     callback();
   };
 
-  scope.shootRobotLaser = function(players, player, victims) {
-    var step = {x:0, y:0};
+  scope.shootRobotLaser = function (players, player, victims) {
+    var step = {x: 0, y: 0};
     var board = player.board();
     switch (player.direction) {
       case GameLogic.UP:
@@ -158,31 +163,34 @@ GameLogic = {
     var y = player.position.y;
     var shotDistance = 0;
     var highPower = player.hasOptionCard('high-power_laser');
-    while (board.onBoard(x+step.x,y+step.y) && (board.canMove(x, y, step) || highPower) ) {
-      if (highPower && !board.canMove(x,y,step))
+    while (board.onBoard(x + step.x, y + step.y) && (board.canMove(x, y, step) || highPower)) {
+      if (highPower && !board.canMove(x, y, step)) {
         highPower = false;
+      }
       x += step.x;
       y += step.y;
       shotDistance++;
-      var victim = isPlayerOnTile(players,x,y);
+      var victim = isPlayerOnTile(players, x, y);
       if (victim) {
-        debug_info = 'Shot: (' + player.position.x +','+player.position.y+') -> ('+x+','+y+')';
-        victim.chat('was shot by '+ player.name +', Total damage: '+ (victim.damage+1), debug_info);
-        Players.update(player._id,{$set: {shotDistance:shotDistance}});
+        debug_info = 'Shot: (' + player.position.x + ',' + player.position.y + ') -> (' + x + ',' + y + ')';
+        victim.chat('was shot by ' + player.name + ', Total damage: ' + (victim.damage + 1), debug_info);
+        Players.update(player._id, {$set: {shotDistance: shotDistance}});
         victims.push(victim);
-        if (player.hasOptionCard('double-barreled_laser'))
+        if (player.hasOptionCard('double-barreled_laser')) {
           victims.push(victim);
-        if (!highPower)
+        }
+        if (!highPower) {
           return victims;
+        }
         highPower = false;
       }
     }
-    Players.update(player._id,{$set: {shotDistance:shotDistance}});
+    Players.update(player._id, {$set: {shotDistance: shotDistance}});
     return victims;
   };
 
   function executeStep(players, player, direction) {   // direction = 1 for step forward, -1 for step backwards
-    var step = { x: 0, y: 0 };
+    var step = {x: 0, y: 0};
     switch (player.direction) {
       case GameLogic.UP:
         step.y = -1 * direction;
@@ -204,18 +212,19 @@ GameLogic = {
     var board = p.board();
     var makeMove = true;
     if (step.x !== 0 || step.y !== 0) {
-      console.log("trying to move player "+p.name+" to "+ (p.position.x+step.x)+","+(p.position.y+step.y));
+      console.log("trying to move player " + p.name + " to " + (p.position.x + step.x) + "," + (p.position.y + step.y));
 
       if (board.canMove(p.position.x, p.position.y, step)) {
         var pushedPlayer = isPlayerOnTile(players, p.position.x + step.x, p.position.y + step.y);
         if (pushedPlayer !== null) {
-          console.log("trying to push player "+pushedPlayer.name);
-          if (p.hasOptionCard('ramming_gear')) 
+          console.log("trying to push player " + pushedPlayer.name);
+          if (p.hasOptionCard('ramming_gear')) {
             pushedPlayer.addDamage(1);
-          makeMove=tryToMovePlayer(players, pushedPlayer, step);
+          }
+          makeMove = tryToMovePlayer(players, pushedPlayer, step);
         }
-        if(makeMove) {
-          console.log("moving player "+p.name+" to "+ (p.position.x+step.x)+","+(p.position.y+step.y));
+        if (makeMove) {
+          console.log("moving player " + p.name + " to " + (p.position.x + step.x) + "," + (p.position.y + step.y));
           p.move(step);
           Meteor.wrapAsync(checkRespawnsAndUpdateDb)(p);
           return true;
@@ -229,10 +238,10 @@ GameLogic = {
     if (is_moving) {
       return {
         player: player,
-        x: player.position.x+tile.move.x,
-        y: player.position.y+tile.move.y,
+        x: player.position.x + tile.move.x,
+        y: player.position.y + tile.move.y,
         rotate: tile.rotate,
-        step:tile.move,
+        step: tile.move,
         canceled: false
       };
     } else { // to detect conflicts add non-moving players
@@ -255,8 +264,8 @@ GameLogic = {
         break;
       }
       move_canceled = false;
-      for (var i=0;i<moves.length;++i) {
-        for (var j=i+1;j<moves.length;++j) {
+      for (var i = 0; i < moves.length; ++i) {
+        for (var j = i + 1; j < moves.length; ++j) {
           if (moves[i].x === moves[j].x && moves[i].y === moves[j].y) {
             moves[i].canceled = true;
             moves[j].canceled = true;
@@ -269,7 +278,7 @@ GameLogic = {
         }
       }
     }
-    moves.forEach(function(roller_move) {
+    moves.forEach(function (roller_move) {
       if (!roller_move.canceled) {
         //move player 1 step in roller direction and rotate
         roller_move.player.move(roller_move.step);
@@ -281,8 +290,8 @@ GameLogic = {
 
   function isPlayerOnTile(players, x, y) {
     var found = null;
-    players.forEach(function(player) {
-      if (player.position.x == x && player.position.y == y && !player.needsRespawn) {
+    players.forEach(function (player) {
+      if (player.position.x === x && player.position.y === y && !player.needsRespawn) {
         found = player;
       }
     });
@@ -290,16 +299,17 @@ GameLogic = {
   }
 
   function checkRespawnsAndUpdateDb(player, callback) {
-    console.log(player.name+" Player.position "+player.position.x+","+player.position.y+" "+player.isOnBoard()+"|"+player.isOnVoid());
-    if (!player.needsRespawn && (!player.isOnBoard() || player.isOnVoid() || player.damage > 9 )) {
-      if (player.hasOptionCard('superior_archive'))
+    console.log(player.name + " Player.position " + player.position.x + "," + player.position.y + " " + player.isOnBoard() + "|" + player.isOnVoid());
+    if (!player.needsRespawn && (!player.isOnBoard() || player.isOnVoid() || player.damage > 9)) {
+      if (player.hasOptionCard('superior_archive')) {
         player.damage = 0;
-      else
+      } else {
         player.damage = 2;
+      }
 
       player.lives--;
-      player.needsRespawn=true;
-      player.optionalInstantPowerDown=true;
+      player.needsRespawn = true;
+      player.optionalInstantPowerDown = true;
       player.optionCards = {};
       Players.update(player._id, player);
       if (player.lives > 0) {
@@ -307,7 +317,7 @@ GameLogic = {
         game.waitingForRespawn.push(player._id);
         Games.update(game._id, game);
       }
-      player.chat('died! (lives: '+ player.lives +', damage: '+ player.damage +')');
+      player.chat('died! (lives: ' + player.lives + ', damage: ' + player.damage + ')');
       Meteor.wrapAsync(removePlayerWithDelay)(player);
     } else {
       console.log("updating position", player.name);
@@ -319,8 +329,8 @@ GameLogic = {
   }
 
   function removePlayerWithDelay(player, callback) {
-    Meteor.setTimeout(function() {
-      player.position.x = player.board().width-1;
+    Meteor.setTimeout(function () {
+      player.position.x = player.board().width - 1;
       player.position.y = player.board().height;
       player.direction = GameLogic.UP;
       Players.update(player._id, player);
@@ -330,17 +340,17 @@ GameLogic = {
     }, _CARD_PLAY_DELAY);
   }
 
-  scope.respawnPlayerAtPos = function(player,x,y) {
+  scope.respawnPlayerAtPos = function (player, x, y) {
     player.position.x = x;
     player.position.y = y;
-    console.log("respawning player", player.name,'at', x,',',y);
+    console.log("respawning player", player.name, 'at', x, ',', y);
     Players.update(player._id, player);
   };
 
-  scope.respawnPlayerWithDir = function(player,dir) {
+  scope.respawnPlayerWithDir = function (player, dir) {
     player.direction = dir;
     player.needsRespawn = false;
     Players.update(player._id, player);
   };
-  
+
 })(GameLogic);

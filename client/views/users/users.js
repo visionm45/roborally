@@ -1,6 +1,6 @@
 Template.usersPill.helpers({
   usersOnline: function () {
-    Meteor.users.find();
+   return Meteor.users.find();
   },
   userPillClass: function () {
     return {

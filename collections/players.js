@@ -115,7 +115,7 @@ var player = {
     return  GameLogic.CARD_SLOTS - this.lockedCnt();
   },
   notLockedCards: function() {
-    if (this.lockedCnt() == GameLogic.CARD_SLOTS)
+    if (this.lockedCnt() === GameLogic.CARD_SLOTS)
       return [];
     else
       return this.getChosenCards().slice(0, this.notLockedCnt());
@@ -131,7 +131,7 @@ var player = {
       if (!this.ablativeCoat)
         this.ablativeCoat = 0;
       this.ablativeCoat++;
-      if (this.ablativeCoat == 3)  {
+      if (this.ablativeCoat === 3)  {
         this.ablativeCoat = null;
         this.discardOptionCard('ablative_coat');
       }

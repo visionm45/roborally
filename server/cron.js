@@ -79,7 +79,7 @@ Meteor.startup(function () {
           Meteor.clearInterval(handle);
           if (playersOnline === 0) {
             Games.update(game._id, {$set: {gamePhase: GameState.PHASE.ENDED, winner: "Nobody", stopped: new Date().getTime()}});
-          } else if (playersOnline == 1 && game.min_player > 1) {
+          } else if (playersOnline === 1 && game.min_player > 1) {
             Games.update(game._id, {$set: {gamePhase: GameState.PHASE.ENDED, winner: lastManStanding.name, stopped: new Date().getTime()}});
           }
           //else do nothing, game still in progress..
