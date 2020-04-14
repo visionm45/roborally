@@ -15,7 +15,6 @@ chfritz:easycron
 lookback:tooltips
 spiderable
 marcelpanse:jquery-titlealert
-meteorhacks:aggregate
 meteor-base
 mobile-experience
 mongo
@@ -25,7 +24,6 @@ jquery
 logging
 reload
 random
-ejson
 spacebars
 standard-minifier-css
 standard-minifier-js
@@ -39,3 +37,4 @@ edemaine:accounts-ui-bootstrap-3
 accounts-password
 tracker
 stylus@=2.513.14
+sakulstra:aggregate
