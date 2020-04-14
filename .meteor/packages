@@ -13,7 +13,6 @@ mrt:moment
 coffeescript
 chfritz:easycron
 lookback:tooltips
-spiderable
 meteor-base
 mobile-experience
 mongo
