@@ -132,7 +132,7 @@ Template.board.helpers({
   selectOptions: function () {
     var s = [];
     var game = this.game;
-    console.log(game.respawnUserId);
+    console.log("game.respawnUserId: " + game.respawnUserId + "; Meteor.userId(): " + Meteor.userId());
     if (this.game.respawnUserId === Meteor.userId()) {
       game.selectOptions.forEach(function (opts) {
         opts.position = cssPosition(opts.x, opts.y);
@@ -277,39 +277,8 @@ function animatePosition(element, x, y) {
 }
 
 function animateRotation(element, direction) {
-  var oldRotation = $("." + element).css('rotate');
-  if (oldRotation === undefined) {
-    oldRotation = 0;
-  } else if (oldRotation !== 0) {
-    oldRotation = parseInt(oldRotation.match(/\d+/g)[0]);
-  }
-
   var newRotation = direction * 90;
-
-  if (newRotation !== oldRotation) {
-    Tracker.afterFlush(function () {
-      var delta = newRotation - (oldRotation % 360);
-
-      if (delta === 270) {
-        if (oldRotation === 0) {
-          $("." + element).transition({
-            rotate: '+=359deg'
-          }, 0, 'linear');
-          delta = -89;
-        } else {
-          delta = -90;
-        }
-      }
-      if (delta === -270) {
-        delta = 90;
-      }
-      var playerElement = $("." + element);
-      playerElement.stop();
-      playerElement.transition({
-        rotate: '+=' + delta + 'deg'
-      }, 300, 'linear');
-    });
-  }
+  $("."+element).css({'transform' : 'rotate(' + newRotation + 'deg)'});
   return '';
 }
 

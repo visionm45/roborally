@@ -59,7 +59,7 @@ class @CardLogic
           handCards: [],
           chosenCards: chosenCards
 
-    console.log "Returned cards, new total: "+deck.cards.length
+    console.log player.name + ": returned cards, new total: "+deck.cards.length
     deck.cards = _.shuffle(deck.cards)
     Deck.upsert({gameId: game._id}, deck)
 
@@ -73,7 +73,7 @@ class @CardLogic
       nrOfNewCards++
     #grab card from deck, so it can't be handed out twice
     handCards.push deck.cards.pop() for i in [1..nrOfNewCards]
-    console.log('handCards ' + handCards.length)
+    console.log(player.name + ': handCards ' + handCards.length)
 
     Cards.update {playerId: player._id},
       $set:
