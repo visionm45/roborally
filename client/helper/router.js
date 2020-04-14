@@ -2,7 +2,7 @@ Router.configure({
   layoutTemplate: 'applicationLayout'
 });
 
-Meteor.startup(function() {
+Meteor.startup(function () {
   document.title = "RoboRally online!";
 
 });
@@ -11,17 +11,17 @@ Router.route('/', {
   name: 'gamelist.page',
   loadingTemplate: 'loading',
 
-  waitOn: function() {
+  waitOn: function () {
     return [Meteor.subscribe('games'),
       Meteor.subscribe('chat', "global")];
   },
 
-  action: function() {
+  action: function () {
     this.render('gameList');
     this.render('gameItemPostForm', {to: 'rightPanel'});
     this.render('chat', {
       to: 'rightPanel2',
-      data: function() {
+      data: function () {
         return {messages: Chat.find(), gameId: "global"};
       }
     });
@@ -32,13 +32,13 @@ Router.route('/ranking', {
   name: 'ranking.page',
   loadingTemplate: 'loading',
 
-  waitOn: function() {
+  waitOn: function () {
     return [Meteor.subscribe('highscores'), Meteor.subscribe('chat', "global")];
   },
 
-  action: function() {
+  action: function () {
     this.render('ranking', {
-      data: function() {
+      data: function () {
         return {
           mostPlayed: Highscores.find({type: 'mostPlayed'}),
           mostWon: Highscores.find({type: 'mostWon'})
@@ -47,7 +47,7 @@ Router.route('/ranking', {
     });
     this.render('chat', {
       to: 'rightPanel',
-      data: function() {
+      data: function () {
         return {messages: Chat.find(), gameId: "global"};
       }
     });
@@ -58,14 +58,14 @@ Router.route('/select/:_id', {
   name: 'boardselect.page',
   loadingTemplate: 'loading',
 
-  waitOn: function() {
+  waitOn: function () {
     return [Meteor.subscribe('games'),
       Meteor.subscribe('players', this.params._id)];
   },
 
-  action: function() {
+  action: function () {
     this.render('boardselect', {
-      data: function() {
+      data: function () {
         var game = Games.findOne(this.params._id);
         if (game === undefined) {
           Router.go('gamelist.page');
@@ -79,13 +79,13 @@ Router.route('/select/:_id', {
     });
     this.render('gamePageActions', {
       to: 'rightPanel',
-      data: function() {
+      data: function () {
         return Games.findOne(this.params._id);
       }
     });
     this.render('players', {
       to: 'rightPanel2',
-      data: function() {
+      data: function () {
         var game = Games.findOne(this.params._id);
         return {players: Players.find(), game: game};
       }
@@ -97,15 +97,15 @@ Router.route('/games/:_id', {
   name: 'game.page',
   loadingTemplate: 'loading',
 
-  waitOn: function() {
+  waitOn: function () {
     return [Meteor.subscribe('games'),
       Meteor.subscribe('players', this.params._id),
       Meteor.subscribe('chat', this.params._id)];
   },
 
-  action: function() {
+  action: function () {
     this.render('chat', {
-      data: function() {
+      data: function () {
         var game = Games.findOne(this.params._id);
         if (game === undefined) {
           Router.go('gamelist.page');
@@ -119,28 +119,29 @@ Router.route('/games/:_id', {
     });
     this.render('gamePageActions', {
       to: 'rightPanel',
-      data: function() {
+      data: function () {
         return Games.findOne(this.params._id);
       }
     });
     this.render('players', {
       to: 'rightPanel2',
-      data: function() {
+      data: function () {
         var game = Games.findOne(this.params._id);
         return {players: Players.find(), game: game};
       }
     });
     this.render('selectedBoard', {
       to: 'rightPanel3',
-      data: function() {
+      data: function () {
         var game = Games.findOne(this.params._id);
         var board = game.board();
-        return { width: board.width*24,
-                 height: board.height*24,
-                 extra_class: '',
-                 game: game,
-                 board: board
-               };
+        return {
+          width: board.width * 24,
+          height: board.height * 24,
+          extra_class: '',
+          game: game,
+          board: board
+        };
       }
     });
   }
@@ -150,7 +151,7 @@ Router.route('/board/:_id', {
   name: 'board.page',
   loadingTemplate: 'loading',
 
-  waitOn: function() {
+  waitOn: function () {
     return [
       Meteor.subscribe('games'),
       Meteor.subscribe('players', this.params._id),
@@ -159,9 +160,9 @@ Router.route('/board/:_id', {
     ];
   },
 
-  action: function() {
+  action: function () {
     this.render('board', {
-      data: function() {
+      data: function () {
         var game = Games.findOne(this.params._id);
         if (game === undefined) {
           Router.go('gamelist.page');
@@ -172,8 +173,11 @@ Router.route('/board/:_id', {
     });
     this.render('cards', {
       to: 'rightPanel',
-      data: function() {
-        var c = Cards.findOne();
+      data: function () {
+        let c = Cards.findOne();
+        if (typeof c === "undefined") {
+          return;
+        }
         return {
           game: Games.findOne(this.params._id),
           handCards: c.handCards,
@@ -184,7 +188,7 @@ Router.route('/board/:_id', {
     });
     this.render('chat', {
       to: 'rightPanel2',
-      data: function() {
+      data: function () {
         return {messages: Chat.find(), gameId: this.params._id};
       }
     });

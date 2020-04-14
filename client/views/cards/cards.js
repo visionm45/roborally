@@ -7,21 +7,21 @@ Template.cards.helpers({
     return Players.find({gameId: this.game._id, userId: {$ne: Meteor.userId()}});
   },
   chosenCards: function () {
-    return addUIData(this.chosenCards, false, getPlayer().lockedCnt(), true);
+    return addUIData(this.chosenCards, false, getPlayer().lockedCnt(), true, getPlayer().game().playerCnt());
   },
   availableCards: function () {
     var cards = this.handCards;
     if (cards.length < 9) {
       //add empty cards^
-      for (var j = cards.length; j < 9; j++) {
+      for (let j = cards.length; j < 9; j++) {
         cards.push(CardLogic.DAMAGE);
       }
     }
-    return addUIData(cards, true, false, false);
+    return addUIData(cards, true, false, false, getPlayer().game().playerCnt());
   },
   showCards: function () {
     return (this.game.gamePhase === GameState.PHASE.PROGRAM &&
-        getPlayer() && !getPlayer().submitted);
+        typeof getPlayer() !== "undefined" && !getPlayer().submitted);
   },
   showPlayButton: function () {
     return !getPlayer().submitted;
@@ -200,7 +200,7 @@ Template.playerStatus.helpers({
     }
   },
   cardsHtml: function () {
-    return addUIData(this.cards || [], false, this.lockedCnt(), false);
+    return addUIData(this.cards || [], false, getPlayer().lockedCnt(), false, getPlayer().game().playerCnt());
   },
   lives: function () {
     l = [];
@@ -217,27 +217,27 @@ Template.playerStatus.helpers({
     return this.damage * 10;
   },
   power: function () {
-    if (this.powerState == GameLogic.OFF) {
+    if (this.powerState === GameLogic.OFF) {
       return 'powered down';
-    } else if (this.powerState == GameLogic.DOWN) {
+    } else if (this.powerState === GameLogic.DOWN) {
       return 'power down played';
     }
   },
   headingForFinish: function () {
-    return this.visited_checkpoints == this.board().checkpoints.length - 1;
+    return this.visited_checkpoints === this.board().checkpoints.length - 1;
   },
   nextCheckpoint: function () {
     return Math.min(this.board().checkpoints.length, this.visited_checkpoints + 1);
   },
   showSubmittedLabel: function () {
-    return this.submitted && this.game().gamePhase == GameState.PHASE.PROGRAM;
+    return this.submitted && this.game().gamePhase === GameState.PHASE.PROGRAM;
   },
   showPoweredDownLabel: function () {
-    return this.powerState == GameLogic.OFF &&
-        (this.game().gamePhase != GameState.PHASE.PROGRAM || this.submitted);
+    return this.powerState === GameLogic.OFF &&
+        (this.game().gamePhase !== GameState.PHASE.PROGRAM || this.submitted);
   },
   powerDownPlayed: function () {
-    return (this.powerState == GameLogic.DOWN);
+    return (this.powerState === GameLogic.DOWN);
   },
   hasOptionCards: function () {
     return (Object.keys(this.optionCards).length > 0);
@@ -257,7 +257,7 @@ Template.playerStatus.helpers({
 Template.card.events({
   'click .available': function (e) {
     var currentSlot = getSlotIndex();
-    if ($(e.currentTarget).css("opacity") == 1 && isEmptySlot(currentSlot)) {
+    if ($(e.currentTarget).css("opacity") === "1" && isEmptySlot(currentSlot)) {
       $(e.currentTarget).css("opacity", "0.3");
       Session.set("selectedSlot", getNextEmptySlotIndex(currentSlot));
 
@@ -312,7 +312,7 @@ Template.cards.events({
       if (error) {
         return alert(error.reason);
       }
-      if (powerState == GameLogic.OFF) {
+      if (powerState === GameLogic.OFF) {
         this.chosenCards.forEach(function (item) {
           if (item.type !== 'empty') {
             $('.available.' + item.cardId).show();
@@ -406,7 +406,7 @@ function getLockedCnt() {
 }
 
 function allowSubmit() {
-  return getChosenCnt() == 5 || getPlayer().isPoweredDown();
+  return getChosenCnt() === 5 || getPlayer().isPoweredDown();
 }
 
 function submitCards(game) {
@@ -422,8 +422,7 @@ function submitCards(game) {
   });
 }
 
-function addUIData(cards, available, locked, selectable) {
-  var playerCnt = getPlayer().game().playerCnt();
+function addUIData(cards, available, locked, selectable, numberOfPlayers) {
   var uiCards = [];
   cards.forEach(function (card, i) {
     var cardProp = {
@@ -446,14 +445,14 @@ function addUIData(cards, available, locked, selectable) {
         cardProp.type = 'empty';
         break;
       default:
-        if (card !== null) {
+        if (card !== null && typeof card !== "undefined") {
           cardProp.class = available ? 'available' : 'played';
           cardProp.priority = CardLogic.priority(card);
           if (locked && i >= GameLogic.CARD_SLOTS - locked) {
             cardProp.class += " locked";
             cardProp.locked = true;
           }
-          cardProp.type = CardLogic.cardType(card, playerCnt).name;
+          cardProp.type = CardLogic.cardType(card, numberOfPlayers).name;
         }
     }
     uiCards.push(cardProp);
