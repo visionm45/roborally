@@ -5,7 +5,8 @@ GNU General Public License (GPL) 2.0
 
 Fork
 ----
-This is a fork of https://github.com/marcelpanse/roborally, but with as much as possible that doesn't impact gameplay removed to reduce memory requirements.
+This is a fork of https://github.com/marcelpanse/roborally, updated to Meteor 1.10.1, without tracking and social
+ media integration. 
 
 Original README
 ----------------
