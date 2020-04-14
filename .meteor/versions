@@ -57,7 +57,6 @@ livedata@1.0.18
 localstorage@1.2.0
 logging@1.1.20
 lookback:tooltips@0.6.1
-marcelpanse:jquery-titlealert@0.0.1
 mdg:meteor-apm-agent@3.2.5
 meteor@1.9.3
 meteor-base@1.4.0
