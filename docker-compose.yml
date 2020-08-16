@@ -15,5 +15,5 @@ services:
     depends_on:
         - mongo
     environment:
-        - MONGO_URL=mongodb://localhost:27017/roborally
+        - MONGO_URL=mongodb://mongo:27017/roborally
         - ROOT_URL=http://localhost:3000
