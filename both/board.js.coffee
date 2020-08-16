@@ -17,7 +17,7 @@ class @Board
 
   getTile: (x,y) ->
     if !@onBoard(x,y)
-      console.log "Invalid board tile (#{x},#{y})"
+      console.warn "Invalid board tile (#{x},#{y})"
       return new Tile(Tile.LIMBO)
     @tiles[y][x]
 

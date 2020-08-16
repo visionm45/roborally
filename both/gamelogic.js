@@ -38,7 +38,7 @@ GameLogic = {
         }
       }
     } else {
-      console.log("card is not playable " + card + " player " + player.name);
+      console.warn("card is not playable " + card + " player " + player.name);
     }
 
     callback();
@@ -260,7 +260,7 @@ GameLogic = {
     while (move_canceled) {  // if a move was canceled we have to check for other conflicts again
       max++;
       if (max > 100) {
-        console.log("Infinite loop detected.. cancelling..");
+        console.warn("Infinite loop detected.. cancelling..");
         break;
       }
       move_canceled = false;
