@@ -133,14 +133,14 @@ class @CardLogic
             found = true
             break
         if !found
-          console.log("illegal card detected: "+card+"! (removing card)")
+          console.warn("illegal card detected: "+card+"! (removing card)")
       else
-        console.log("Not enough cards submitted")
+        console.warn("Not enough cards submitted")
 
       if card<0 || !found
         # grab card from hand
         cardIdFromHand = availableCards.splice(_.random(0, availableCards.length-1), 1)[0]
-        console.log("Handing out random card", cardIdFromHand)
+        console.warn("Handing out random card", cardIdFromHand)
         submittedCards[i] = cardIdFromHand
         player.cards[i] = CardLogic.RANDOM
 
