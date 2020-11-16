@@ -33,11 +33,13 @@ template(name="applicationLayout")
               +loginButtons
   if loggingIn
     header
-      .container
+      .container-fluid
         .row
+          .col-sm-0
           .col-md-8
             +yield
-          .col-md-4.well
+          .col-sm-0
+          .col-md-3.well
             +yield("rightPanel")
             +yield("rightPanel2")
             +yield("rightPanel3")
