@@ -9,7 +9,7 @@ Template.gamePageActions.helpers({
     return Players.find().fetch().length >= this.min_player;
   },
   gameFull: function() {
-    return Players.find().fetch().length >= 8;
+    return Players.find().fetch().length >= this.max_player;
   }
 });
 
