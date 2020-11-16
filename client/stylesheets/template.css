@@ -59,7 +59,7 @@ hr.star-well {
 hr.star-light:after,
 hr.star-primary:after,
 hr.star-well:after {
-    content: "\f005";
+    content: "\2605";
     display: inline-block;
     position: relative;
     top: -.8em;
