@@ -316,6 +316,9 @@ GameLogic = {
         var game = player.game();
         game.waitingForRespawn.push(player._id);
         Games.update(game._id, game);
+      } else {
+        console.log('game over for ' + player.name);
+        GameLogic.discardCards(player.game(), player);
       }
       player.chat('died! (lives: ' + player.lives + ', damage: ' + player.damage + ')');
       Meteor.wrapAsync(removePlayerWithDelay)(player);

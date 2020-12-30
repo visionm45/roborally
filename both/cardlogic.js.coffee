@@ -36,7 +36,6 @@ class @CardLogic
 
   @discardCards: (game, player) ->
     deck = game.getDeck()
-
     if playerCards = Cards.findOne({playerId: player._id})
       for unusedCard in playerCards.handCards
         if unusedCard >= 0
@@ -67,11 +66,15 @@ class @CardLogic
     deck = game.getDeck()
     handCards = []
 
+    console.log('dealCards: deck size ' + deck.cards.length)
+
     #for every damage you get a card less
     nrOfNewCards = (@_MAX_NUMBER_OF_CARDS - player.damage)
     if player.hasOptionCard('extra_memory')
       nrOfNewCards++
     #grab card from deck, so it can't be handed out twice
+    if( deck.cards.length < nrOfNewCards)
+      console.log( 'out of Cards' )
     handCards.push deck.cards.pop() for i in [1..nrOfNewCards]
     console.log(player.name + ': handCards ' + handCards.length)
 
