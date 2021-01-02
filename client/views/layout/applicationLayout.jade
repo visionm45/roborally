@@ -46,14 +46,6 @@ template(name="applicationLayout")
       .container
         .row
           .col-lg-12.text-center
-            h2 Update
-            hr.star-light
-            .row
-              .col-lg-4.col-lg-offset-2
-                p
-                  | [April 4th] new version, all account deleted!
-        .row
-          .col-lg-12.text-center
             h2 About
             hr.star-light
         .row
@@ -66,7 +58,17 @@ template(name="applicationLayout")
               br
               | Get the source on
               a(href='https://github.com/blinkingnoise/roborally').btn.btn-primary.btn-lg GitHub
-
+          .row
+            .col-lg-12.text-center
+              h2 Version
+              hr.star-light
+              .row
+                .col-lg-4.col-lg-offset-2
+                  p
+                    | #{appVersion}
+                .col.lg-4
+                  p
+                   a(href='https://github.com/blinkingnoise/roborally/commits/master', target="_blank").btn.btn-primary.btn-lg change log
   // Footer
   #fb-root
   footer.text-center

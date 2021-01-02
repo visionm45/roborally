@@ -3,11 +3,14 @@ Template.applicationLayout.rendered = function () {
   $('.navbar-collapse ul li a').click(function () {
     $('.navbar-toggle:visible').click();
   });
+}
 
-  Template.applicationLayout.helpers({
-    loggingIn: function () {
-      var user = Meteor.user();
-      return user != null;
-    }
-  });
-};
+Template.applicationLayout.helpers({
+  loggingIn: function () {
+    var user = Meteor.user();
+    return user != null;
+  },
+  appVersion:  function () {
+    return Meteor.gitCommitHash;
+  }
+});
