@@ -26,7 +26,7 @@ spacebars
 standard-minifier-css@1.7.1
 standard-minifier-js@2.6.0
 shell-server@0.5.0
-dynamic-import@0.5.4
+dynamic-import@0.5.5
 underscore@1.0.10
 fourseven:scss
 mdg:meteor-apm-agent
