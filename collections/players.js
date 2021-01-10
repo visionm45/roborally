@@ -127,11 +127,13 @@ var player = {
     return !this.isPoweredDown() && !this.needsRespawn && this.lives > 0;
   },
   addDamage: function(inc) {
+	  console.debug("addDamage")
     if (this.hasOptionCard('ablative_coat')) {
-      if (!this.ablativeCoat)
+      if (this.ablativeCoat == null) {
         this.ablativeCoat = 0;
+      }
       this.ablativeCoat++;
-      if (this.ablativeCoat === 3)  {
+      if (this.ablativeCoat >= 3)  {
         this.ablativeCoat = null;
         this.discardOptionCard('ablative_coat');
       }
@@ -168,9 +170,9 @@ var player = {
     }
   },
   discardOptionCard: function(name) {
-    var gameId = this.game()._id;
-    delete this.optionCards.name;
-    var discarded = Deck.findOne({gameId: gameId}).discardedOptionCards;
+    let gameId = this.game()._id;
+    delete this.optionCards[name];
+    let discarded = Deck.findOne({gameId: gameId}).discardedOptionCards;
     discarded.push(CardLogic.getOptionId(name));
     Deck.update({gameId: gameId}, {$set: {discardedOptionCards: discarded}});
   }
