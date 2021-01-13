@@ -83,7 +83,7 @@ a.white
     &.visited
       background-color: #449d44
 
-  .robot, .marker, .laser
+  .marker, .laser
     position: absolute
     width: $tile
     height: $tile
@@ -91,6 +91,18 @@ a.white
     img
       width: $tile
       height: $tile
+      -webkit-transform-origin: 50% 50%
+
+  .robot
+    position: absolute
+    width: $tile*0.8
+    height: $tile*0.8
+    margin-top: $tile*0.05
+    margin-left: $tile*0.05
+
+    img
+      width: 30px
+      height: 30px
       -webkit-transform-origin: 50% 50%
 
 #board
