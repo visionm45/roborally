@@ -568,3 +568,121 @@ class @Area
       @addWall 11, 4, 'r'
       @addWall 11, 7, 'r'
       @addWall 11, 9, 'r'
+
+    canner_row: () ->
+      @setVoid 6, 0
+      @setVoid 5, 2
+      @setVoid 9, 8
+
+
+      @setPusher 5,10, 'right', 'even'
+      @setPusher 8,9, 'right', 'odd'
+      @setPusher 10,9, 'left', 'even'
+
+
+      @setExpressRoller 0, 0, 'rrrr'
+      @setExpressRoller 11, 0, 'dddddlllll'
+      @setExpressRoller 0, 11, 'uuuuurrrr'
+      @setExpressRoller 11, 11, 'lllll'
+      @setExpressRoller 8, 6, 'rdd'
+
+      @setRoller 4, 0, 'dddddddddddrd'
+      @setRoller 5, 0, 'ld'
+      @setRoller 5, 4, 'ru'
+      @setRoller 5, 5, 'ld'
+      @setRoller 5, 6, 'ru'
+      @setRoller 5, 7, 'ld'
+      @setRoller 11, 10, 'uuuur'
+
+      @setRoller 6, 11, 'uuuuuuuuuuld'
+
+      @setOption 3, 5
+      @setOption 9, 10
+      @setOption 5, 8
+      @setRepair 10, 1
+      @setRepair  1, 10
+
+
+      @addWall 2, 0, 'u'
+      @addWall 4, 0, 'u'
+      @addWall 7, 0, 'u'
+      @addWall 9, 0, 'u'
+      @addWall 9, 0, 'd'
+      @addWall 10, 0, 'r'
+
+      @addWall 2, 1, 'u'
+      @addWall 9, 1, 'r'
+
+      @addWall 0, 2, 'l'
+      @addWall 1, 2, 'u'
+      @addWall 1, 2, 'r'
+      @addWall 2, 2, 'r'
+      @addWall 8, 2, 'r'
+      @addWall 8, 2, 'l'
+      @addWall 11, 2, 'r'
+
+      @addWall 1, 3, 'l'
+      @addWall 3, 3, 'r'
+      @addWall 5, 3, 'u'
+      @addWall 5, 3, 'd'
+      @addWall 9, 3, 'u'
+
+      @addWall 0, 4, 'l'
+      @addWall 2, 4, 'u'
+      @addWall 3, 4, 'd'
+      @addWall 10, 4, 'r'
+      @addWall 11, 4, 'r'
+      @addWall 8, 4, 'u'
+      @addWall 10, 4, 'u'
+
+      @addWall 1, 5, 'u'
+      @addWall 2, 5, 'd'
+      @addWall 8, 5, 'u'
+      @addWall 9, 5, 'u'
+
+      @addWall 3, 6, 'd'
+
+      @addWall 0, 7, 'l'
+      @addWall 1, 7, 'l'
+      @addWall 1, 7, 'u'
+      @addWall 2, 7, 'd'
+      @addWall 10, 7, 'd'
+      @addWall 11, 7, 'r'
+
+      @addWall 2, 8, 'r'
+      @addWall 3, 8, 'r'
+      @addWall 7, 8, 'd'
+
+      @addWall 0, 9, 'l'
+      @addWall 1, 9, 'u'
+      @addWall 1, 9, 'r'
+      @addWall 3, 9, 'd'
+      @addWall 5, 9, 'u'
+      @addWall 8, 9, 'l'
+      @addWall 9, 9, 'u'
+      @addWall 9, 9, 'd'
+      @addWall 10, 9, 'r'
+      @addWall 11, 9, 'r'
+
+      @addWall 2, 10, 'd'
+      @addWall 4, 10, 'l'
+      @addWall 8, 10, 'd'
+      @addWall 10, 10, 'l'
+      @addWall 10, 10, 'd'
+
+      @addWall 2, 11, 'd'
+      @addWall 7, 11, 'd'
+      @addWall 9, 11, 'd'
+
+
+      @addDoubleLaser 9, 0, 'd', 1
+      @addDoubleLaser 2, 2, 'l', 1
+      @addDoubleLaser 8, 2, 'r', 1
+      @addLaser 5, 3, 'u', 1
+      @addLaser 9, 3, 'd', 2
+      @addLaser 2, 4, 'd', 2
+      @addLaser 1, 5, 'd', 2
+      @addLaser 4, 10, 'l', 1
+      @addDoubleLaser 9, 9, 'u', 1
+
+

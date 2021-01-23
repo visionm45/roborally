@@ -10,7 +10,7 @@ class @BoardBox
                # with special rules
                'tricksy', #moving_targets',
                'set_to_kill', 'factory_rejects', 'option_world', 'tight_collar', 
-               'ball_lightning',  'flag_fry', 'crowd_chess' 
+               'ball_lightning',  'flag_fry', 'crowd_chess' , 'custom_made'
              ]
                
   @BEGINNER_COURSE_CNT = 11
@@ -303,6 +303,18 @@ class @BoardBox
       board.addCheckpoint 9,3
       board.addCheckpoint 3,10
       return board
+    custom_made: () ->
+      board = new Board('custom_made', 4, 8, 12, 28)
+      board.length = 'long'
+      board.addRallyArea('canner_row',0,0,0)
+      board.addStartArea('roller',0,12,180)
+      board.addRallyArea( 'vault', 0,16, 90)
 
+      board.addCheckpoint(8, 3)
+      board.addCheckpoint(3, 24)
+      board.addCheckpoint(11, 18)
+      board.addCheckpoint(5, 9)
+
+      return board
 
 
