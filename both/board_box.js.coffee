@@ -6,14 +6,16 @@ class @BoardBox
                'around_the_world', 'death_trap', 'pilgrimage',
                # expert courses
                'vault_assault', 'whirlwind_tour', 'lost_bearings', 'robot_stew',
-               'oddest_sea', 'against_the_grain', 'island_king', 
+               'oddest_sea', 'against_the_grain', 'island_king',
                # with special rules
                'tricksy', #moving_targets',
                'set_to_kill', 'factory_rejects', 'option_world', 'tight_collar', 
                'ball_lightning',  'flag_fry', 'crowd_chess' , 'custom_made', 'quarter_pounder'
              ]
-               
+
+
   @BEGINNER_COURSE_CNT = 11
+  @CUSTOM_COURSE_IDX = 26
   @cache = []
   @test_board_id = @CATALOG.length
 
