@@ -341,7 +341,7 @@ GameLogic = {
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         unusedCard = _ref[_i];
         if (unusedCard >= 0) {
-        let deck = Deck.findOne({gameId: player.gameId})
+          let deck = Deck.findOne({gameId: player.gameId});
           deck.cards.push(unusedCard);
         }
       }
