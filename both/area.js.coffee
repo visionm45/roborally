@@ -18,6 +18,7 @@ class @Area
     @addWall 11, 9, 'r'
 
   @start:
+
     simple: () ->
       @addWall  2, 0, 'up'
       @addWall  4, 0, 'up'
@@ -115,6 +116,26 @@ class @Area
       @addStart  0, 0, 'up'
       @addStart 11, 0, 'up'
 
+    roller3: () ->
+      @setRoller  0, 2, 'rrdrrr'
+      @setRoller 11, 2, 'lldlll'
+
+      @addWall  1, 1, 'left'
+      @addWall  2, 1, 'left'
+      @addWall 10, 1, 'left'
+      @addWall 11, 1, 'left'
+      @addWall  6, 2, 'left'
+      @addWall  6, 3, 'left'
+
+      @addStart  5, 2, 'up'
+      @addStart  6, 2, 'up'
+      @addStart  4, 2, 'up'
+      @addStart  7, 2, 'up'
+      @addStart  1, 1, 'up'
+      @addStart 10, 1, 'up'
+      @addStart  0, 0, 'up'
+      @addStart 11, 0, 'up'
+
     crowd: () ->
       @addWall  1, 2, 'left'
       @addWall  3, 2, 'left'
@@ -147,6 +168,152 @@ class @Area
       @addStart 2,0, 'up'
       @addStart 3,0, 'up'
   @course:
+
+    bridge: () ->
+      @setExpressRoller 0,4, 'rrrrru'
+      @setExpressRoller 11,4, 'lllllu'
+      @setExpressRoller 1,0, 'ddddr'
+      @setExpressRoller 10,0, 'ddddl'
+      @setExpressRoller 1,11, 'uurrrr'
+      @setExpressRoller 10,11, 'uullll'
+      @setExpressRoller 3,11, 'uur'
+      @setExpressRoller 8,11, 'uul'
+      @setRoller 5,3, 'uuuu'
+      @setRoller 6,3, 'uuuu'
+      @setVoid 4, 6,
+      @setVoid 4, 7,
+      @setVoid 7, 6,
+      @setVoid 7, 7,
+      @setPusher 0, 0, 'right', 'even'
+      @setPusher 11, 0, 'left', 'even'
+      @setPusher 0, 11, 'right', 'odd'
+      @setPusher 11, 11, 'left', 'odd'
+      @setPusher 2, 0, 'down', 'odd'
+      @setPusher 3, 0, 'down', 'even'
+      @setPusher 8, 0, 'down', 'even'
+      @setPusher 9, 0, 'down', 'odd'
+      @addLaser 2,5, 'r', 8
+      @addLaser 2,8, 'r', 8
+      @setOption 3,2
+      @setOption 8,2
+      @setRepair 4,11
+      @setRepair 7,11
+      @setRepair 0,6
+      @setOption 0,9
+      @setOption 11,6
+      @setOption 11,9
+      @addWall  0, 7, 'up'
+      @addWall  1, 7, 'up'
+      @addWall  2, 7, 'up'
+      @addWall  3, 7, 'up'
+      @addWall  8, 7, 'up'
+      @addWall  9, 7, 'up'
+      @addWall  10, 7, 'up'
+      @addWall  11, 7, 'up'     
+      Area.boundaryWalls.call(@)
+
+    snake: () ->
+      @setExpressRoller 0,11, 'rrrrrrrrrrruullllllllllluurrrrrrrrrrruullllllllllluurrrrrrrrrrruullllllllllluu'
+      @setVoid 3, 10,
+      @setVoid 0, 10,
+      @setVoid 1, 10,
+      @setVoid 5, 10,
+      @setVoid 6, 10,
+      @setVoid 11, 8,
+      @setVoid 0, 6,
+      @setVoid 5, 0,
+      @setVoid 0, 2,
+      @setVoid 11, 4,
+      @setVoid 2, 6,
+      @setVoid 4, 6,
+      @setVoid 9, 6,
+      @setVoid 8, 8,
+      @setVoid 4, 4,
+      @setVoid 6, 4,
+      @setVoid 10, 2,
+      @setGear 3,8, 'ccw'
+      @setGear 6,2, 'cw'
+      @setPusher 8, 0, 'down', 'even'
+      @setPusher 9, 0, 'down', 'odd'
+      @setPusher 8, 6, 'left', 'odd'
+      @setPusher 9, 10, 'up', 'odd'
+      @setPusher 2, 2, 'up', 'odd'
+      @setPusher 5, 8, 'up', 'even'
+      @setPusher 3, 4, 'left', 'even'
+      @setPusher 8, 4, 'left', 'even'
+      @setPusher 10, 4, 'right', 'even'
+      @setPusher 4, 2, 'up', 'odd'
+      @addLaser 7,0, 'd', 12
+      @addLaser 2,0, 'd', 12
+      @setOption 11,0
+      @setOption 1,4
+      @setOption 6,6
+      @addWall  2, 7, 'right'
+      Area.boundaryWalls.call(@)
+    rennstrekk: () ->
+      @setOption 4,5
+      @setOption 6,5
+      @setOption 5,5
+      @setOption 7,5
+
+    holy_cross: () ->
+      @addWall  2, 5, 'down'
+      @addWall  1, 5, 'down'
+      @addWall  0, 5, 'down'
+      @addWall  0, 3, 'up'
+      @addWall  1, 3, 'up'
+      @addWall  2, 3, 'up'
+      @addWall  8, 3, 'up'
+      @addWall  9, 3, 'up'
+      @addWall  10, 3, 'up'
+      @addWall  11, 3, 'up'
+      @addWall  8, 5, 'down'
+      @addWall  9, 5, 'down'
+      @addWall  10, 5, 'down'
+      @addWall  11, 5, 'down'
+      @addWall  3, 2, 'left'
+      @addWall  3, 2, 'up'
+      @addWall  7, 2, 'up'
+      @addWall  3, 6, 'left'
+      @addWall  3, 7, 'left'
+      @addWall  3, 8, 'left'
+      @addWall  3, 10, 'left'
+      @addWall  3, 9, 'left'
+      @addWall  4, 1, 'left'
+      @addWall  4, 0, 'left'
+      @addWall  6, 0, 'right'
+      @addWall  6, 1, 'right'
+      @addWall  7, 6, 'right'
+      @addWall  7, 7, 'right'
+      @addWall  7, 8, 'right'
+      @addWall  7, 10, 'right'
+      @addWall  7, 9, 'right'
+      @addWall  7, 2, 'right'
+      @setExpressRoller 0,10, 'drrrrr'
+      @setExpressRoller 11,10, 'dllllll'
+      @setVoid 3, 10,
+      @setVoid 7, 10,
+      @setRoller 4,10, 'l'
+      @setRoller 6,10, 'r'
+      @setRoller 4,8, 'r'
+      @setRoller 6,8, 'l'
+      @setVoid 5, 4,
+      @setOption 4,4
+      @setOption 6,4
+      @setOption 5,3
+      @setOption 5,5
+      @setExpressRoller 3,4, 'ururrdrddldllulu'
+      @addLaser 5,0, 'd', 12 
+      @addLaser 0,4, 'r', 12 
+      @setRepair 3,2
+      @setRepair 3,6
+      @setRepair 7,2
+      @setRepair 7,6
+      @setPusher 8, 5, 'up', 'even'
+      @setPusher 1, 5, 'up', 'even'
+      @setPusher 11, 4, 'left', 'odd'
+      @setGear 8,3, 'ccw'
+      @setGear 2,3, 'cw'
     test: () ->
       @setVoid 1,1
       @setRoller 0,3, 'ur'
@@ -163,17 +330,86 @@ class @Area
       @addLaser 1,2, 'd', 2
       @addDoubleLaser 0,1, 'r', 1
 
-    anewmap: () ->
+    schnoi: () ->
+      @setVoid 0, 8
+      @setVoid 1, 8
+      @setVoid 0, 9
+      @setVoid 11, 8
+      @setVoid 10, 8
+      @setVoid 11, 9
+      @setVoid 5, 9
       @setVoid 6, 9
-      @setExpressRoller 8,8, 'rrrdddd'
-      @setExpressRoller 8,9, 'rrrd'
-      @setExpressRoller 4,8, 'lllldddd'
-      @setExpressRoller 4,9, 'lllld'
-      @setExpressRoller 10,6, 'uuuu'
-      @setRoller 11,1, 'dddddd'
-      @setPusher 10,6, 'right', 'odd'
-      @setPusher 10,5, 'right', 'even'
-      @setPusher 10,4, 'right', 'odd'
+      @setVoid 4, 10
+      @setVoid 7, 10
+      @setVoid 3, 11
+      @setVoid 8, 11
+      @setVoid 4, 3
+      @setVoid 7, 3
+      @setVoid 4, 6
+      @setVoid 7, 6
+      @setOption 5,10
+      @setOption 6,10
+      @setOption 5,11
+      @setOption 6,11
+      @setOption 4,11
+      @setOption 7,11
+      @setRepair 0,4
+      @setRepair 11,5
+      @addLaser 4,3, 'r', 4
+      @addLaser 7,3, 'd', 4
+      @addLaser 7,6, 'l', 4
+      @addLaser 4,6, 'u', 4
+      @setExpressRoller 0,5, 'rrrddrrrrruurrrr'
+      @setExpressRoller 11,4, 'llluulllllddllll'
+
+    mind_the_gap: () ->
+      @addWall  4, 5, 'left'
+      @addWall  4, 6, 'left'
+      @addWall  4, 7, 'left'
+      @addWall  4, 8, 'left'
+      @addWall  4, 11, 'left'
+      @addWall  4, 10, 'left'
+      @addWall  4, 9, 'left'
+      @addWall  7, 5, 'right'
+      @addWall  7, 6, 'right'
+      @addWall  7, 7, 'right'
+      @addWall  7, 8, 'right'
+      @addWall  7, 10, 'right'
+      @addWall  7, 9, 'right'
+      @addWall  7, 11, 'right'
+      @setExpressRoller 0,9, 'ddd'
+      @setExpressRoller 1,9, 'ddd'
+      @setExpressRoller 2,9, 'ddd'
+      @setExpressRoller 3,9, 'ddd'
+      @setVoid 0, 8,
+         
+    schnoi2: () ->
+      @setVoid 0, 8
+      @setVoid 1, 8
+      @setVoid 0, 9
+      @setVoid 11, 8
+      @setVoid 10, 8
+      @setVoid 11, 9
+      @setVoid 5, 9
+      @setVoid 6, 9
+      @setVoid 4, 10
+      @setVoid 7, 10
+      @setVoid 3, 11
+      @setVoid 8, 11
+      @setRepair 0,4
+      @setRepair 11,5
+      @setOption 2,8
+      @setOption 9,8
+      @setOption 5,10
+      @setOption 6,10
+      @setOption 5,11
+      @setOption 6,11
+      @setOption 4,11
+      @setOption 7,11
+      @setExpressRoller 0,5, 'rrrddrrrrruurrr'
+      @setExpressRoller 11,4, 'llluulllllddlll'
+      @addLaser 3,3, 'r',6
+      @addLaser 3,6, 'r',6
 
     quarterpounder: () ->
       @setVoid 6, 0
