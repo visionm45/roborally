@@ -10,7 +10,7 @@ class @BoardBox
                # with special rules
                'tricksy', #moving_targets',
                'set_to_kill', 'factory_rejects', 'option_world', 'tight_collar', 
-               'ball_lightning',  'flag_fry', 'crowd_chess' , 'custom_made', 'quarter_pounder'
+               'ball_lightning',  'flag_fry', 'crowd_chess' , 'custom_made', 'quarter_pounder', 'schnoi', 'schnoi2', 'mind_the_gap', 'holy_cross', 'rennstrekk', 'snake', 'bridge'
              ]
 
 
@@ -53,6 +53,26 @@ class @BoardBox
       board.addCheckpoint(1, 8)
       board.addCheckpoint(7, 7)
       return board
+    bridge: () ->
+      board = new Board('bridge',1)
+      board.length = 'short'
+      board.addRallyArea('bridge')
+      board.addStartArea('test2')
+      board.addCheckpoint(11, 0)
+      board.addCheckpoint(0, 11)
+      board.addCheckpoint(0, 0)     
+      board.addCheckpoint(11, 11)
+      return board
+    snake: () ->
+      board = new Board('snake',1)
+      board.length = 'short'
+      board.addRallyArea('snake')
+      board.addStartArea('test')
+      board.addCheckpoint(6, 0)
+      board.addCheckpoint(6, 8)
+      board.addCheckpoint(2, 2)
+      board.addCheckpoint(9, 10)
+      return board
     quarter_pounder: () ->
       board = new Board('quarter_pounder',1)
       board.length = 'short'
@@ -62,6 +82,56 @@ class @BoardBox
       board.addCheckpoint(11, 11)
       board.addCheckpoint(0, 0)
       board.addCheckpoint(0, 11)
+      return board
+    schnoi: () ->
+      board = new Board('schnoi',1)
+      board.length = 'short'
+      board.addRallyArea('schnoi')
+      board.addStartArea('roller3')
+      board.addCheckpoint(5, 4)
+      board.addCheckpoint(5, 5)
+      board.addCheckpoint(6, 4)
+      board.addCheckpoint(6, 5)
+      return board
+    mind_the_gap: () ->
+      board = new Board('mind_the_gap',1)
+      board.length = 'short'
+      board.addRallyArea('mind_the_gap')
+      board.addStartArea('roller3')
+      board.addCheckpoint(5, 4)
+      board.addCheckpoint(5, 5)
+      board.addCheckpoint(6, 4)
+      board.addCheckpoint(6, 5)
+      return board
+    rennstrekk: () ->
+      board = new Board('rennstrekk',1)
+      board.length = 'short'
+      board.addRallyArea('rennstrekk')
+      board.addStartArea('roller3')
+      board.addCheckpoint(5, 0)
+      board.addCheckpoint(7, 0)
+      board.addCheckpoint(4, 0)
+      board.addCheckpoint(6, 0)
+      return board
+    holy_cross: () ->
+      board = new Board('holy_cross',1)
+      board.length = 'short'
+      board.addRallyArea('holy_cross')
+      board.addStartArea('roller3')
+      board.addCheckpoint(5, 0)
+      board.addCheckpoint(5, 11)
+      board.addCheckpoint(0, 4)
+      board.addCheckpoint(11, 4)
+      return board
+    schnoi2: () ->
+      board = new Board('schnoi2',1)
+      board.length = 'short'
+      board.addRallyArea('schnoi2')
+      board.addStartArea('roller3')
+      board.addCheckpoint(5, 4)
+      board.addCheckpoint(5, 5)
+      board.addCheckpoint(6, 4)
+      board.addCheckpoint(6, 5)
       return board
     test: () ->
       board = new Board('test',1,4,4,5)
