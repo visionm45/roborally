@@ -68,9 +68,7 @@ GameState = {
   };
 
   function playDealPhase(game) {
-    var dealCards;
-    game.players().forEach(function (player) {
-      dealCards = player.lives > 0;
+    game.players().forEach(function(player) {
       player.playedCardsCnt = 0;
       player.submitted = false;
       if (player.hasOptionCard('circuit_breaker') && player.damage >= 3) {
@@ -93,11 +91,19 @@ GameState = {
       }
 
       Players.update(player._id, player);
-      CardLogic.discardCards(game, player);
-      if (dealCards) {
-        CardLogic.dealCards(game, player);
-      }
     });
+
+    game.players().forEach(function(player) {
+        CardLogic.discardCards(game,player);
+    });
+    game.players().forEach(function(player) {
+        var dealCards = player.lives > 0;
+        if (player.powerState == GameLogic.OFF && !player.optionalInstantPowerDown)
+            dealCards = false;
+        if (dealCards)
+          CardLogic.dealCards(game, player);
+  });
+
     game.setGamePhase(GameState.PHASE.PROGRAM);
     var notPoweredDownCnt = Players.find({gameId: game._id, submitted: false}).count();
     if (notPoweredDownCnt === 0) {

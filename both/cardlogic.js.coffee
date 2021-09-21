@@ -71,14 +71,35 @@ class @CardLogic
     nrOfNewCards = (@_MAX_NUMBER_OF_CARDS - player.damage)
     if player.hasOptionCard('extra_memory')
       nrOfNewCards++
-    #grab card from deck, so it can't be handed out twice
-    handCards.push deck.cards.pop() for i in [1..nrOfNewCards]
-    console.log(player.name + ': handCards ' + handCards.length)
+    for attempt in [1..5]
+      #grab card from deck, so it can't be handed out twice
+      handCards.push deck.cards.pop() for i in [1..nrOfNewCards]
+      if haveBothTurnAndStep(handCards, game) || attempt == 5
+        break
+      console.log('Found only turns/steps, redealing')
+      Array.prototype.unshift.apply(deck.cards, handCards)
+      handCards = []
+
+    console.log('handCards ' + handCards.length)
 
     Cards.update {playerId: player._id},
       $set:
         handCards: handCards
     Deck.update(deck._id, deck)
+
+  haveBothTurnAndStep = (cards, game) ->
+    if cards.size < 5  # once you have locked slots, you're out of luck anyway
+      return true
+    seen = {'turn': 0, 'step': 0}
+    players = game.playerCnt()
+    for card in cards
+      type = CardLogic.cardType(card, players).name.split('-')
+      if type[0] == 'u'  # yay special cases
+        type[0] = 'turn'
+      seen[type[0]] += 1
+      if seen['turn'] >= 2 and seen['step'] >= 2
+        return true
+    return false
 
   @submitCards: (player) ->
     if (player.isPoweredDown())
@@ -98,26 +119,7 @@ class @CardLogic
     playerCnt = Players.find({gameId: player.gameId, lives: {$gt: 0}}).count()
     readyPlayerCnt = Players.find({gameId: player.gameId, submitted: true, lives: {$gt: 0}}).count()
     if readyPlayerCnt == playerCnt
-      Games.update(player.gameId, {$set: {timer: -1}})
       GameState.nextGamePhase(player.gameId)
-    else if readyPlayerCnt == playerCnt-1
-      # start timer
-      Games.update(player.gameId, {$set: {timer: 1}})
-      Meteor.setTimeout ->
-        if Games.findOne(player.gameId).timer == 1
-          console.log("time up! setting timer to 0")
-          Games.update(player.gameId, {$set: {timer: 0}})
-
-          # wait for player to auto-submit selected cards..
-          Meteor.setTimeout ->
-            # if nothing happened the system to should auto-submit random cards..
-            if Players.find({gameId: player.gameId, submitted: true}).count() == 1
-              unsubmittedPlayer = Players.findOne({gameId: player.gameId, submitted: false})
-              CardLogic.submitCards(unsubmittedPlayer)
-              console.log("Player " + unsubmittedPlayer.name + " did not respond, submitting random cards")
-          , 2500
-
-      , GameLogic.TIMER * 1000
 
   verifySubmittedCards = (player) ->
     # check if all played cards are available from original hand...

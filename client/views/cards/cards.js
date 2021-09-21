@@ -1,4 +1,3 @@
-var timerHandle = null;
 Template.cards.helpers({
   player: function () {
     return Players.findOne({userId: Meteor.userId()});

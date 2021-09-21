@@ -3,7 +3,7 @@ Template.applicationLayout.rendered = function () {
   $('.navbar-collapse ul li a').click(function () {
     $('.navbar-toggle:visible').click();
   });
-}
+};
 
 Template.applicationLayout.helpers({
   loggingIn: function () {
