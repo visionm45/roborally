@@ -10,7 +10,10 @@ class @BoardBox
                # with special rules
                'tricksy', #moving_targets',
                'set_to_kill', 'factory_rejects', 'option_world', 'tight_collar', 
-               'ball_lightning',  'flag_fry', 'crowd_chess' , 'custom_made', 'quarter_pounder', 'schnoi', 'schnoi2', 'mind_the_gap', 'holy_cross', 'rennstrekk', 'snake', 'bridge'
+               'ball_lightning',  'flag_fry', 'crowd_chess' ,
+                # custom
+                'custom_made', 'quarter_pounder', 'schnoi', 'schnoi2','mind_the_gap',
+                'holy_cross', 'rennstrekk', 'snake', 'bridge'
              ]
 
 
@@ -57,7 +60,7 @@ class @BoardBox
       board = new Board('bridge',1)
       board.length = 'short'
       board.addRallyArea('bridge')
-      board.addStartArea('test2')
+      board.addStartArea('test')
       board.addCheckpoint(11, 0)
       board.addCheckpoint(0, 11)
       board.addCheckpoint(0, 0)     
