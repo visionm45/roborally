@@ -5,9 +5,10 @@
   "main": "client/main.js",
   "dependencies": {
     "@babel/runtime": "^7.12.13",
-    "bcrypt": "^5.0.0"
+    "bcrypt": "^5.0.0",
+    "ndh": "^1.0.18",
+    "which": "github:npm/node-which"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
