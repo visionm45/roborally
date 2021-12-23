@@ -31,8 +31,9 @@ template(name="applicationLayout")
                 a(href="{{pathFor 'ranking.page'}}") Ranking
             li.page-scroll
               +loginButtons
-  if loggingIn
-    header
+  header
+    if loggingIn
+      
       .container
         .row
           .col-md-8
@@ -41,8 +42,7 @@ template(name="applicationLayout")
             +yield("rightPanel")
             +yield("rightPanel2")
             +yield("rightPanel3")
-   else
-    header
+    else
       .container
         .row
           .col-lg-12.text-center
@@ -68,11 +68,9 @@ template(name="applicationLayout")
                     | #{appVersion}
                 .col.lg-4
                   p
-                   a(href='https://github.com/blinkingnoise/roborally/commits/master', target="_blank").btn.btn-primary.btn-lg change log
-  // Footer
-  #fb-root
-  footer.text-center
-    .footer-below
+                    a(href='https://github.com/blinkingnoise/roborally/commits/master', target="_blank").btn.btn-primary.btn-lg change log
+    // Footer
+    footer.text-center
       .container
         .row
           .col-lg-12
@@ -81,4 +79,4 @@ template(name="applicationLayout")
               i.fa.fa-youtube-play
               a(href="https://youtu.be/0l8Y-L5IZLE", target="_blank")
                 | tutorial video
-  +tooltips
+    //- +tooltips
