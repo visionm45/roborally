@@ -202,6 +202,10 @@ footer {
 }
 
 @media (min-width: 768px) {
+  #login-dropdown-list {
+    position: absolute;
+    left: -150px;
+  }
   .navbar {
     min-height: 25px;
     height: 25px;
@@ -234,10 +238,6 @@ footer {
   }
 }
 @media (min-width: 992px) {
-  #login-dropdown-list {
-    position: absolute;
-    left: -150px;
-  }
   header .col-md-4 {
     margin: initial;
   }
